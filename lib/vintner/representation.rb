@@ -28,7 +28,7 @@ module Vintner
     include DSLmethods
 
     def property name
-      @representer.properties([name.to_sym])
+      @representer.properties([name.to_sym]).import(model, value)
     end
 
     def import representer, model, hash
