@@ -9,11 +9,19 @@ module Vintner
     end
 
     def import model, value
-      yield mode, value
+      if setter_defined?
+        @setter.call mode, value
+      else
+        model.send "#{name}=", value
+      end
     end
 
     def export model
-      yield model
+      if getter_defined?
+        @getter.call model
+      else
+        model.send name
+      end
     end
 
     def getter_defined?
