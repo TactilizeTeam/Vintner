@@ -29,6 +29,10 @@ module Vintner
       def export model
         @representation.export(self, model).to_json
       end
+
+      def import model, json
+        @representation.import(self, model, ActiveSupport::JSON.decode(json))
+      end
     end
   end
 end
