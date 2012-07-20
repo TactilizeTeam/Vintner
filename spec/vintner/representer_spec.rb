@@ -47,6 +47,10 @@ module Vintner
           include Vintner::Representer
 
           property :title do
+            get do |model|
+              model.formatted_title
+            end
+
             set do |model, value|
               model.formatted_title = value
             end
@@ -67,8 +71,14 @@ module Vintner
       it "should export json" do
         hash = {meta:{title:"some title"}}
 
-        model = Struct.new(:title).new("some title")
+        model = Struct.new(:formatted_title).new("some title")
         Dummy.export(model).should ==(hash.to_json)
+      end
+
+      it "should import json" do
+        model = Struct.new(:formatted_title)
+
+        Dummy.import(model, hash.to_json).title.should ==("some title")
       end
     end
   end
