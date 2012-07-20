@@ -1,5 +1,6 @@
 require "vintner/version"
 require "vintner/property"
+require "vintner/representation"
 require "vintner/representer"
 
 module Vintner

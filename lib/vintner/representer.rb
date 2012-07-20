@@ -21,7 +21,13 @@ module Vintner
       end
 
       def representation &block
+        return @representation unless block_given?
 
+        @representation = Representation.new &block
+      end
+
+      def export model
+        @representation.export(self, model).to_json
       end
     end
   end

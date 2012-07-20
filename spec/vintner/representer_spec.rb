@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Vintner
   describe Representer do
-    it "should allow to declare a simple property" do
+    it "should declare a simple property" do
       class Dummy
         include Vintner::Representer
 
@@ -12,7 +12,7 @@ module Vintner
       Dummy.properties.should include(:title)
     end
 
-    it "should allow to declare a property with a getter" do
+    it "should declare a property with a getter" do
       class Dummy
         include Vintner::Representer
 
@@ -27,7 +27,7 @@ module Vintner
       Dummy.properties[:title].getter_defined?.should be(true)
     end
 
-    it "should allow to declare a property with a getter" do
+    it "should declare a property with a setter" do
       class Dummy
         include Vintner::Representer
 
@@ -39,6 +39,37 @@ module Vintner
       end
 
       Dummy.properties[:title].setter_defined?.should be(true)
+    end
+
+    describe "Representation" do
+      before :each do
+        class Dummy
+          include Vintner::Representer
+
+          property :title do
+            set do |model, value|
+              model.formatted_title = value
+            end
+          end
+
+          representation do |json|
+            json.meta do |meta|
+              meta.property :title
+            end
+          end
+        end
+      end
+
+      it "should declare a representation" do
+        Dummy.representation.should_not be_nil
+      end
+
+      it "should export json" do
+        hash = {meta:{title:"some title"}}
+
+        model = Struct.new(:title).new("some title")
+        Dummy.export(model).should ==(hash.to_json)
+      end
     end
   end
 end
