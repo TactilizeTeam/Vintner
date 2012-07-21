@@ -1,17 +1,6 @@
 module Vintner
   class Importer
-    def initialize &block
-      @store = {}
-      @block = block
-    end
-
-    def method_missing method_id, *args, &block
-      @store[method_id] = self.class.new(&block)
-    end
-
-    def property name
-      @store[name] = @representer.properties[name.to_sym]
-    end
+    include DSLMethods
 
     def import representer, model, hash
       @representer = representer

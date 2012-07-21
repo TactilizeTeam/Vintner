@@ -1,17 +1,6 @@
 module Vintner
   class Builder
-    def initialize &block
-      @store = {}
-      @block = block
-    end
-
-    def method_missing method_id, *args, &block
-      @store[method_id] = self.class.new(&block)
-    end
-
-    def property name
-      @store[name] = @representer.properties[name.to_sym].export(@model)
-    end
+    include DSLMethods
 
     def export representer, model
       @representer = representer
@@ -27,7 +16,7 @@ module Vintner
         if builder.is_a? Builder
           hash[key] = builder.export(representer, model)
         else
-          hash[key] = builder
+          hash[key] = builder.export(@model)
         end
       end
 

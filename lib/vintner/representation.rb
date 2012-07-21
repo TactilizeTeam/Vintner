@@ -1,3 +1,4 @@
+require 'vintner/dsl_methods'
 require 'vintner/builder'
 require 'vintner/importer'
 
