@@ -120,16 +120,17 @@ module Vintner
       end
 
       it "should export json" do
-        hash = {:meta=>{:tile => "test"}, :position => {:x => 4, :y => 5}}
+        hash = {:meta=>{:title => "test"}, :position => {:x => 4, :y => 5}}
 
-        model = Struct.new(:formatted_title, :position).new("test", :x => 4, :y => 5)
+        model = Struct.new(:formatted_title, :position_x, :position_y).new("test", 4,5)
+
         Dummy.export(model).should ==(hash.to_json)
       end
 
       it "should import json" do
-        hash = {:meta=>{:tile => "test"}, :position => {:x => 4, :y => 5}}
+        hash = {:meta=>{:title => "test"}, :position => {:x => 4, :y => 5}}
 
-        model = Struct.new(:formatted_title, :position).new
+        model = Struct.new(:formatted_title, :position_x, :position_y).new
 
         Dummy.import(model, hash.to_json).formatted_title.should ==("test")
         Dummy.import(model, hash.to_json).position_x.should ==(4)
