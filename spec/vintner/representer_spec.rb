@@ -104,8 +104,8 @@ module Vintner
             end
 
             set do |model, value|
-              model.position_x = value[:x]
-              model.position_y = value[:y]
+              model.position_x = value['x']
+              model.position_y = value['y']
             end
           end
 
@@ -133,6 +133,7 @@ module Vintner
         model = Struct.new(:formatted_title, :position_x, :position_y).new
 
         Dummy.import(model, hash.to_json).formatted_title.should ==("test")
+
         Dummy.import(model, hash.to_json).position_x.should ==(4)
         Dummy.import(model, hash.to_json).position_y.should ==(5)
       end
