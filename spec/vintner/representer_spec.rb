@@ -82,5 +82,52 @@ module Vintner
         Dummy.import(model, hash.to_json).formatted_title.should ==("some title")
       end
     end
+
+    describe "Complex representation" do
+      before :each do
+        class Dummy
+          include Vintner::Representer
+
+          property :title do
+            get do |model|
+              model.formatted_title
+            end
+
+            set do |model, value|
+              model.formatted_title = value
+            end
+          end
+
+          property :position do
+            get do |model|
+              {:x => model.position_x, :y => model.position_y}
+            end
+
+            set do |model, value|
+              model.position_x = value[:x]
+              model.position_y = value[:y]
+            end
+          end
+
+          representation do |json|
+            json.meta do |meta|
+              meta.property :title
+            end
+
+            json.property :position
+          end
+        end
+      end
+    end
+
+    it "should export json" do
+      hash = {:meta=>{:tile => "test"}, :position => {:x => 4, :y => 5}}
+
+      model = Struct.new(:formatted_title, :position).new
+
+      Dummy.import(model, hash.to_json).formatted_title.should ==("test")
+      Dummy.import(model, hash.to_json).position_x.should ==(4)
+      Dummy.import(model, hash.to_json).position_y.should ==(5)
+    end
   end
 end
