@@ -76,7 +76,8 @@ module Vintner
       end
 
       it "should import json" do
-        model = Struct.new(:formatted_title)
+        hash = {meta:{title:"some title"}}
+        model = Struct.new(:formatted_title).new
 
         Dummy.import(model, hash.to_json).formatted_title.should ==("some title")
       end

@@ -1,6 +1,6 @@
 module Vintner
   class Property
-    attr_reader :name
+    attr_reader :name, :getter, :setter
 
     def initialize name, &block
       @name = name
@@ -10,7 +10,7 @@ module Vintner
 
     def import model, value
       if setter_defined?
-        @setter.call mode, value
+        @setter.call model, value
       else
         model.send "#{name}=", value
       end
