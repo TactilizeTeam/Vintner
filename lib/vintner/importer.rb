@@ -10,11 +10,11 @@ module Vintner
       @block.call(self) if @block
 
       # Then we play the score accordingly
-      @store.each do |key, importer_or_property|
-        if importer_or_property.is_a? Importer
-          importer_or_property.import representer, model, hash[key.to_s]
+      @store.each do |key, object|
+        if object.is_a? Importer
+          object.import representer, model, hash[key.to_s]
         else
-          importer_or_property.import model, hash[key.to_s]
+          object.import model, hash[key.to_s] if object.respond_to? :import
         end
       end
 

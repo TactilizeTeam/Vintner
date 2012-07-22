@@ -138,5 +138,41 @@ module Vintner
         Dummy.import(model, hash.to_json).position_y.should ==(5)
       end
     end
+
+    describe "Immediate values" do
+      before :each do
+        @hash = {:meta=>{:version => 4, :title => "test"}}
+        @model = Struct.new(:formatted_title).new("test")
+
+        class Dummy
+          include Vintner::Representer
+
+          property :title do
+            get do |model|
+              model.formatted_title
+            end
+
+            set do |model, title|
+              model.formatted_title = title
+            end
+          end
+
+          representation do |json|
+            json.meta do |meta|
+              meta.version 4
+              meta.property :title
+            end
+          end
+        end
+      end
+
+      it "should export immediate values " do
+        Dummy.export(@model).should ==(@hash.to_json)
+      end
+
+      it "should ignore it when importing" do
+        Dummy.import(@model, @hash.to_json).formatted_title.should ==(test)
+      end
+    end
   end
 end

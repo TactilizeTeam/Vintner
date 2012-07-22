@@ -6,7 +6,11 @@ module Vintner
     end
 
     def method_missing method_id, *args, &block
-      @store[method_id] = self.class.new(&block)
+      if args.length > 0 && !block_given?
+        @store[method_id] = args.first
+      else
+        @store[method_id] = self.class.new(&block)
+      end
     end
 
     def property name

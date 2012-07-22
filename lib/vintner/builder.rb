@@ -12,11 +12,16 @@ module Vintner
       hash = {}
 
       # Then we play the score accordingly
-      @store.each do |key, builder|
-        if builder.is_a? Builder
-          hash[key] = builder.export(representer, model)
+      @store.each do |key, object|
+        if object.is_a? Builder
+          hash[key] = object.export(representer, model)
         else
-          hash[key] = builder.export(@model)
+          if object.respond_to? :export
+            hash[key] = object.export(@model)
+          else
+            hash[key] = object
+          end
+
         end
       end
 
