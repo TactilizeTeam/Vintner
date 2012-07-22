@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Vintner::VERSION
 
-  gem.add_dependency 'active_support'
+  gem.add_dependency 'activesupport', '~> 3.2.6'
   gem.add_dependency 'i18n'
   gem.add_development_dependency 'rspec', '~> 2.6'
 end
