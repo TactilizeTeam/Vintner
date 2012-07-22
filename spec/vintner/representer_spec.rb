@@ -171,7 +171,7 @@ module Vintner
       end
 
       it "should ignore it when importing" do
-        Dummy.import(@model, @hash.to_json).formatted_title.should ==(test)
+        Dummy.import(@model, @hash.to_json).formatted_title.should ==('test')
       end
     end
   end
