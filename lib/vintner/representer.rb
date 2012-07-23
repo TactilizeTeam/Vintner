@@ -26,10 +26,10 @@ module Vintner
         @@properties[name] = Property.new(name, &block)
       end
 
-      def collection name, representer
+      def collection name, representer, &block
         @@collections ||= {}
 
-        @@collections[name] = Collection.new(name, representer)
+        @@collections[name] = Collection.new(name, representer, &block)
       end
 
       def representation &block
@@ -46,6 +46,13 @@ module Vintner
         @representation.import(self, model, hash)
       end
 
+      def represents_model?
+        true
+      end
+
+      def represents_collection?
+        false
+      end
     end
   end
 end

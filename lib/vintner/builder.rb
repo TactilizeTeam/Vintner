@@ -21,7 +21,6 @@ module Vintner
           else
             hash[key] = object
           end
-
         end
       end
 

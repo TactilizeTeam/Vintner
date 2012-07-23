@@ -18,7 +18,11 @@ module Vintner
     end
 
     def collection name
-      @store[name] = @representer.collections[name.to_sym]
+      if @representer.represents_model?
+        @store[name] = @representer.collections[name.to_sym]
+      else
+        @store[name] = @representer.collection
+      end
     end
   end
 end

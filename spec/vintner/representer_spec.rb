@@ -177,7 +177,67 @@ module Vintner
     end
   end
 
-  describe "Collections" do
+  describe "Nested collections" do
+    before :each do
+      class Dummy
+        include Vintner::Representer
+
+        property :title do
+          get do |model|
+            model.formatted_title
+          end
+
+          set do |model, value|
+            model.formatted_title = value
+          end
+        end
+
+        representation do |json|
+          json.meta do |meta|
+            meta.property :title
+          end
+        end
+      end
+
+      class NestedDummies
+        include Vintner::Representer
+
+        collection :users, Dummy do
+          get { |model| model.dummies }
+        end
+
+        representation do |json|
+          json.meta do |meta|
+            meta.page 0
+            meta.total_pages 4
+          end
+
+          json.collection :users
+        end
+      end
+
+      @a = {:meta=>{:title => "test"}}
+      @b = {:meta=>{:title => "test2"}}
+
+      @collection_klass = Struct.new(:dummies)
+      @model_klass = Struct.new(:formatted_title)
+      @collection = @collection_klass.new [@model_klass.new("test"), @model_klass.new("test2")]
+
+      @hash = {
+        :meta => {
+        :page => 0,
+        :total_pages => 4
+      },
+        :users => [@a, @b]
+      }
+    end
+
+    it "should export the collection" do
+      NestedDummies.new(@collection).to_json.should ==(@hash.to_json)
+    end
+  end
+
+  describe "Standalone collections" do
     before :each do
       class Dummy
         include Vintner::Representer
@@ -200,11 +260,9 @@ module Vintner
       end
 
       class DummyCollection
-        include Vintner::Representer
+        include Vintner::CollectionRepresenter
 
-        collection :dummies, Dummy do
-          get { |model| model.dummies }
-        end
+        representer Dummy
 
         representation do |json|
           json.meta do |meta|
@@ -212,23 +270,22 @@ module Vintner
             meta.total_pages 4
           end
 
-          json.collection :dummies
+          json.collection :users
         end
       end
 
       @a = {:meta=>{:title => "test"}}
       @b = {:meta=>{:title => "test2"}}
 
-      @collection_klass = Struct.new(:dummies)
       @model_klass = Struct.new(:formatted_title)
-      @collection = @collection_klass.new [@model_klass.new("test"), @model_klass.new("test2")]
+      @collection = [@model_klass.new("test"), @model_klass.new("test2")]
 
       @hash = {
         :meta => {
         :page => 0,
         :total_pages => 4
       },
-        :dummies => [@a, @b]
+        :users => [@a, @b]
       }
     end
 
