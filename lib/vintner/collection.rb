@@ -11,11 +11,11 @@ module Vintner
       raise "TODO"
     end
 
-    def export collection
+    def export model
       if getter_defined?
-        result = @getter.call collection
+        result = @getter.call model
       else
-        result = collection
+        result = model.send(@name)
       end
 
       wrap_representers result

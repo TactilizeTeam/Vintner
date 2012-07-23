@@ -203,7 +203,7 @@ module Vintner
         include Vintner::Representer
 
         collection :dummies, Dummy do
-          get { |collection| collection }
+          get { |model| model.collection }
         end
 
         representation do |json|
@@ -219,8 +219,9 @@ module Vintner
       @a = {:meta=>{:title => "test"}}
       @b = {:meta=>{:title => "test2"}}
 
-      @model_klass = Struct.new(:formatted_title, :stuff)
-      @collection = [@model_klass.new("test"), @model_klass.new("test2")]
+      @collection_klass = Struct.new(:dummies)
+      @model_klass = Struct.new(:formatted_title)
+      @collection = @collection_klass.new [@model_klass.new("test"), @model_klass.new("test2")]
 
       @hash = {
         :meta => {
