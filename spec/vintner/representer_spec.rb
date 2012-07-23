@@ -203,7 +203,7 @@ module Vintner
         include Vintner::Representer
 
         collection :dummies, Dummy do
-          get { |model| model.collection }
+          get { |model| model.dummies }
         end
 
         representation do |json|

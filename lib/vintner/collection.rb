@@ -11,11 +11,19 @@ module Vintner
       raise "TODO"
     end
 
-    def export model
+    # Depending on how you use a collection, it can
+    # be invoked with an array or with a model
+    # if you're defining nested collections
+    # like a has_many relationship
+    def export model_or_collection
       if getter_defined?
-        result = @getter.call model
+        result = @getter.call model_or_collection
       else
-        result = model.send(@name)
+        if model_or_collection.is_a? Array
+          result = model_or_collection
+        else
+          result = model_or_collection.send(@name)
+        end
       end
 
       wrap_representers result
