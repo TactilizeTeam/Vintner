@@ -141,8 +141,8 @@ module Vintner
 
     describe "Immediate values" do
       before :each do
-        @hash = {:meta=>{:version => 4, :title => "test"}}
-        @model = Struct.new(:formatted_title).new("test")
+        @hash = {:meta=>{:version => 4, :title => "test", :stuff => "stuff"}}
+        @model = Struct.new(:formatted_title, :stuff).new("test", "stuff")
 
         class Dummy
           include Vintner::Representer
@@ -157,10 +157,11 @@ module Vintner
             end
           end
 
-          representation do |json|
+          representation do |json, model|
             json.meta do |meta|
               meta.version 4
               meta.property :title
+              meta.stuff model.stuff
             end
           end
         end

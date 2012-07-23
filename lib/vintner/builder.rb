@@ -7,7 +7,7 @@ module Vintner
       @model = model
 
       # Registering keys and properties
-      @block.call(self) if @block
+      @block.call(self, @model) if @block
 
       hash = {}
 
