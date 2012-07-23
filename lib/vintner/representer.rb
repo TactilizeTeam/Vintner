@@ -5,6 +5,18 @@ module Vintner
   module Representer
     extend ::ActiveSupport::Concern
 
+    def initialize model
+      @model = model
+    end
+
+    def to_json
+      self.class.export(@model).to_json
+    end
+
+    def from_json json
+      self.class.import @model, ActiveSupport::JSON.decode(json)
+    end
+
     module ClassMethods
       mattr_reader :properties, :collections
 
@@ -17,7 +29,7 @@ module Vintner
       def collection name, representer
         @@collections ||= {}
 
-        raise "TODO"
+        @@collections[name] = Collection.new(name, representer)
       end
 
       def representation &block
@@ -27,12 +39,13 @@ module Vintner
       end
 
       def export model
-        @representation.export(self, model).to_json
+        @representation.export(self, model)
       end
 
-      def import model, json
-        @representation.import(self, model, ActiveSupport::JSON.decode(json))
+      def import model, hash
+        @representation.import(self, model, hash)
       end
+
     end
   end
 end

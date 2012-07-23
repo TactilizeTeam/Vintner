@@ -15,6 +15,7 @@ module Vintner
 
     def import representer, model, hash
       @importer.import representer, model, hash
+
       model
     end
   end
