@@ -16,5 +16,9 @@ module Vintner
     def property name
       @store[name] = @representer.properties[name.to_sym]
     end
+
+    def collection name
+      @store[name] = @representer.collections[name.to_sym]
+    end
   end
 end

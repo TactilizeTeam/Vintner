@@ -177,62 +177,62 @@ module Vintner
     end
   end
 
-#   describe "Collections" do
-#     before :each do
-#       class Dummy
-#         include Vintner::Representer
-#
-#         property :title do
-#           get do |model|
-#             model.formatted_title
-#           end
-#
-#           set do |model, value|
-#             model.formatted_title = value
-#           end
-#         end
-#
-#         representation do |json|
-#           json.meta do |meta|
-#             meta.property :title
-#           end
-#         end
-#       end
-#
-#       class DummyCollection
-#         include Vintner::Representer
-#
-#         collection :dummies, Dummy do
-#           get { |collection| collection }
-#         end
-#
-#         representation do |json|
-#           json.meta do |meta|
-#             meta.page 0
-#             meta.total_pages 4
-#           end
-#
-#           json.collection :dummies
-#         end
-#       end
-#
-#       @a = {:meta=>{:version => 4, :title => "test", :stuff => "stuff"}}
-#       @b = {:meta=>{:version => 4, :title => "test2", :stuff => "stuff2"}}
-#
-#       @model_klass = Struct.new(:formatted_title, :stuff)
-#       @collection = [@model_klass.new("test", "stuff"), @model_klass.new("test2", "stuff2")]
-#
-#       @hash = {
-#         :meta => {
-#           :page => 0,
-#           :total_pages => 4
-#         },
-#         :dummies => [@a, @b]
-#       }
-#     end
-#
-#     it "should export the collection" do
-#       DummyCollection.export(@collection).should ==(@hash.to_json)
-#     end
-#   end
+  describe "Collections" do
+    before :each do
+      class Dummy
+        include Vintner::Representer
+
+        property :title do
+          get do |model|
+            model.formatted_title
+          end
+
+          set do |model, value|
+            model.formatted_title = value
+          end
+        end
+
+        representation do |json|
+          json.meta do |meta|
+            meta.property :title
+          end
+        end
+      end
+
+      class DummyCollection
+        include Vintner::Representer
+
+        collection :dummies, Dummy do
+          get { |collection| collection }
+        end
+
+        representation do |json|
+          json.meta do |meta|
+            meta.page 0
+            meta.total_pages 4
+          end
+
+          json.collection :dummies
+        end
+      end
+
+      @a = {:meta=>{:title => "test"}}
+      @b = {:meta=>{:title => "test2"}}
+
+      @model_klass = Struct.new(:formatted_title, :stuff)
+      @collection = [@model_klass.new("test"), @model_klass.new("test2")]
+
+      @hash = {
+        :meta => {
+        :page => 0,
+        :total_pages => 4
+      },
+        :dummies => [@a, @b]
+      }
+    end
+
+    it "should export the collection" do
+      DummyCollection.new(@collection).to_json.should ==(@hash.to_json)
+    end
+  end
 end
