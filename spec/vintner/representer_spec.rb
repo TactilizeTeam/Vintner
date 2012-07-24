@@ -177,6 +177,45 @@ module Vintner
     end
   end
 
+  describe "Including a module" do
+    before :each do
+      @hash = {:meta=>{:title => "test", :stuff => "stuff"}}
+      @model = Struct.new(:formatted_title, :stuff).new("test", "stuff")
+
+      module Stuff
+        def stuff
+          "stuff"
+        end
+      end
+
+      class Dummy
+        include Vintner::Representer
+        extend Stuff
+
+        property :title do
+          get do |model|
+            model.formatted_title
+          end
+
+          set do |model, value|
+            model.formatted_title = value
+          end
+        end
+
+        representation do |json|
+          json.meta do |meta|
+            meta.property :title
+            meta.stuff stuff
+          end
+        end
+      end
+    end
+
+    it "should call stuff" do
+      Dummy.new(@model).to_json.should include("stuff")
+    end
+  end
+
   describe "Nested collections" do
     before :each do
       class Dummy
