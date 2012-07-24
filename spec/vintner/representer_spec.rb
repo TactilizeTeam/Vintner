@@ -190,7 +190,6 @@ module Vintner
 
       class Dummy
         include Vintner::Representer
-        extend Stuff
 
         property :title do
           get do |model|
@@ -203,6 +202,8 @@ module Vintner
         end
 
         representation do |json|
+          extend Stuff
+
           json.meta do |meta|
             meta.property :title
             meta.stuff stuff
