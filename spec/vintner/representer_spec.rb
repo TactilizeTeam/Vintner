@@ -333,4 +333,58 @@ module Vintner
       DummyCollection.new(@collection).to_json.should ==(@hash.to_json)
     end
   end
+
+  describe "Issue" do
+    before :each do
+      @model_klass = Struct.new(:foo)
+      @another_klass = Struct.new(:bar)
+
+      class Dummy
+        include Vintner::Representer
+
+        property :foo
+        representation do |json|
+          json.meta do |meta|
+            meta.property :foo
+          end
+        end
+      end
+
+      class Another
+        include Vintner::Representer
+
+        property :bar
+        representation do |json|
+          json.meta do |meta|
+            meta.property :bar
+          end
+        end
+      end
+
+      class DummyCollection
+        include Vintner::CollectionRepresenter
+
+        representer Dummy
+
+        representation do |json|
+          json.collection :dummies
+        end
+      end
+
+      class AnotherCollection
+        include Vintner::CollectionRepresenter
+
+        representer Another
+
+        representation do |json|
+          json.collection :anothers
+        end
+      end
+    end
+
+    it "should not share representer" do
+      DummyCollection.new([@model_klass.new("test"), @model_klass.new("test2")]).to_json
+      AnotherCollection.new([@another_klass.new("another"), @another_klass.new("another2")]).to_json
+    end
+  end
 end

@@ -15,10 +15,10 @@ module Vintner
 
 
     module ClassMethods
-      mattr_reader :collection
+      attr_reader :collection
 
       def representer representer_klass
-        @@collection = Collection.new(name, representer_klass)
+        @collection = Collection.new(name, representer_klass)
       end
 
       def representation &block

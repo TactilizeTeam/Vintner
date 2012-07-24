@@ -18,18 +18,18 @@ module Vintner
     end
 
     module ClassMethods
-      mattr_reader :properties, :collections
+      attr_reader :properties, :collections
 
       def property name, &block
-        @@properties ||= {}
+        @properties ||= {}
 
-        @@properties[name] = Property.new(name, &block)
+        @properties[name] = Property.new(name, &block)
       end
 
       def collection name, representer, &block
-        @@collections ||= {}
+        @collections ||= {}
 
-        @@collections[name] = Collection.new(name, representer, &block)
+        @collections[name] = Collection.new(name, representer, &block)
       end
 
       def representation &block
