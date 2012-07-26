@@ -174,6 +174,10 @@ module Vintner
       it "should ignore it when importing" do
         Dummy.new(@model).from_json(@hash.to_json).formatted_title.should ==('test')
       end
+
+      it "should not whine about it if it is absent" do
+        Dummy.new(@model).from_json(@hash.except(:meta).to_json)
+      end
     end
   end
 
