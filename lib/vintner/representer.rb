@@ -43,7 +43,7 @@ module Vintner
       end
 
       def import model, hash
-        @representation.import(self, model, hash)
+        @representation.import(self, model, hash.with_indifferent_access)
       end
 
       def represents_model?
