@@ -178,6 +178,11 @@ module Vintner
       it "should not whine about it if it is absent" do
         Dummy.new(@model).from_json(@hash.except(:meta).to_json)
       end
+
+      it "should not import nil when a property isn't present" do
+        Dummy.import(@model, {:meta => {:version => 4}})
+        @model.formatted_title.should ==("test")
+      end
     end
   end
 

@@ -14,7 +14,7 @@ module Vintner
         if object.is_a? Importer
           object.import representer, model, hash[key.to_s]
         else
-          if hash && object.respond_to?(:import)
+          if hash && hash.has_key?(key) && object.respond_to?(:import)
             object.import model, hash[key]
           end
         end
