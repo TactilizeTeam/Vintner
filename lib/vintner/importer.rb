@@ -3,6 +3,7 @@ module Vintner
     include DSLMethods
 
     def import representer, model, hash
+      @store = {}
       @representer = representer
       @model = model
 

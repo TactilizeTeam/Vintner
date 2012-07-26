@@ -3,6 +3,7 @@ module Vintner
     include DSLMethods
 
     def export representer, model
+      @store = {}
       @representer = representer
       @model = model
 

@@ -1,7 +1,6 @@
 module Vintner
   module DSLMethods
     def initialize &block
-      @store = {}
       @block = block
     end
 
