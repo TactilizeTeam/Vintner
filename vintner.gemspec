@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["JH. Chabran"]
   gem.email         = ["jh@chabran.fr"]
   gem.description   = %q{Export and import json from a definable format}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.summary       = gem.description
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
