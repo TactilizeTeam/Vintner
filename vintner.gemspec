@@ -4,7 +4,7 @@ require File.expand_path('../lib/vintner/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["JH. Chabran"]
   gem.email         = ["jh@chabran.fr"]
-  gem.description   = %q{TODO: Write a gem description}
+  gem.description   = %q{Write a gem description}
   gem.summary       = %q{TODO: Write a gem summary}
   gem.homepage      = ""
 
