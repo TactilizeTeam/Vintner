@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Simplifyapi::VERSION
 
   gem.add_dependency 'activesupport', '~> 3.2.6'
+  gem.add_dependency 'rake'
   gem.add_dependency 'i18n'
   gem.add_development_dependency 'rspec', '~> 2.6'
 end
