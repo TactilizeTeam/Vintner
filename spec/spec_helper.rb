@@ -1,4 +1,4 @@
-require 'vintner'
+require 'simplifyapi'
 
 RSpec.configure do |config|
 end

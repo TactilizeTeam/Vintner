@@ -1,8 +1,8 @@
-module Vintner
-  class Builder
+module Simplifyapi
+  class Importer
     include DSLMethods
 
-    def export representer, model
+    def import representer, model, hash
       @store = {}
       @representer = representer
       @model = model
@@ -10,17 +10,13 @@ module Vintner
       # Registering keys and properties
       @block.call(self, @model) if @block
 
-      hash = {}
-
       # Then we play the score accordingly
       @store.each do |key, object|
-        if object.is_a? Builder
-          hash[key] = object.export(representer, model)
+        if object.is_a? Importer
+          object.import representer, model, hash[key.to_s]
         else
-          if object.respond_to? :export
-            hash[key] = object.export(@model)
-          else
-            hash[key] = object
+          if hash && hash.has_key?(key) && object.respond_to?(:import)
+            object.import model, hash[key]
           end
         end
       end

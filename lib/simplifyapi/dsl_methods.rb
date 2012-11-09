@@ -1,4 +1,4 @@
-module Vintner
+module Simplifyapi
   module DSLMethods
     def initialize &block
       @block = block

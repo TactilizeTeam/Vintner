@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-module Vintner
+module Simplifyapi
   describe Representer do
     it "should declare a simple property" do
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :title
       end
@@ -14,7 +14,7 @@ module Vintner
 
     it "should declare a property with a getter" do
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :title do
           get do |model|
@@ -29,7 +29,7 @@ module Vintner
 
     it "should declare a property with a setter" do
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :title do
           set do |model, value|
@@ -44,7 +44,7 @@ module Vintner
     describe "Representation" do
       before :each do
         class Dummy
-          include Vintner::Representer
+          include Simplifyapi::Representer
 
           property :title do
             get do |model|
@@ -86,7 +86,7 @@ module Vintner
     describe "Complex representation" do
       before :each do
         class Dummy
-          include Vintner::Representer
+          include Simplifyapi::Representer
 
           property :title do
             get do |model|
@@ -145,7 +145,7 @@ module Vintner
         @model = Struct.new(:formatted_title, :stuff).new("test", "stuff")
 
         class Dummy
-          include Vintner::Representer
+          include Simplifyapi::Representer
 
           property :title do
             get do |model|
@@ -198,7 +198,7 @@ module Vintner
       end
 
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :title do
           get do |model|
@@ -229,7 +229,7 @@ module Vintner
   describe "Nested collections" do
     before :each do
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :title do
           get do |model|
@@ -249,7 +249,7 @@ module Vintner
       end
 
       class NestedDummies
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         collection :users, Dummy do
           get { |model| model.dummies }
@@ -289,7 +289,7 @@ module Vintner
   describe "Standalone collections" do
     before :each do
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :title do
           get do |model|
@@ -309,7 +309,7 @@ module Vintner
       end
 
       class DummyCollection
-        include Vintner::CollectionRepresenter
+        include Simplifyapi::CollectionRepresenter
 
         representer Dummy
 
@@ -349,7 +349,7 @@ module Vintner
       @another_klass = Struct.new(:bar)
 
       class Dummy
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :foo
         representation do |json|
@@ -360,7 +360,7 @@ module Vintner
       end
 
       class Another
-        include Vintner::Representer
+        include Simplifyapi::Representer
 
         property :bar
         representation do |json|
@@ -371,7 +371,7 @@ module Vintner
       end
 
       class DummyCollection
-        include Vintner::CollectionRepresenter
+        include Simplifyapi::CollectionRepresenter
 
         representer Dummy
 
@@ -381,7 +381,7 @@ module Vintner
       end
 
       class AnotherCollection
-        include Vintner::CollectionRepresenter
+        include Simplifyapi::CollectionRepresenter
 
         representer Another
 

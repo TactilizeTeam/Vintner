@@ -1,4 +1,4 @@
-module Vintner
+module Simplifyapi
   class Collection
     def initialize name, representer, &block
       @name = name

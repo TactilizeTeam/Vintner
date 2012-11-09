@@ -1,7 +1,7 @@
 require 'active_support/concern'
 require 'active_support/core_ext'
 
-module Vintner
+module Simplifyapi
   module CollectionRepresenter
     extend ::ActiveSupport::Concern
 

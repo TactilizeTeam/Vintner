@@ -1,8 +1,8 @@
-require 'vintner/dsl_methods'
-require 'vintner/builder'
-require 'vintner/importer'
+require 'simplifyapi/dsl_methods'
+require 'simplifyapi/builder'
+require 'simplifyapi/importer'
 
-module Vintner
+module Simplifyapi
   class Representation
     def initialize &block
       @builder = Builder.new &block

@@ -1,4 +1,4 @@
-module Vintner
+module Simplifyapi
   class Property
     attr_reader :name, :getter, :setter
 
